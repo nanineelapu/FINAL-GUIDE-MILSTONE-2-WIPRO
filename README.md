@@ -341,3 +341,7 @@ eksctl create cluster -f eks/cluster.yaml --without-nodegroup
 
 # 2️⃣ Create the nodegroup from the same file
 eksctl create nodegroup -f eks/cluster.yaml
+
+
+eksctl create cluster -f eks/cluster.yaml --without-nodegroup
+eksctl create nodegroup -f eks/cluster.yaml
