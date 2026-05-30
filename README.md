@@ -323,3 +323,6 @@ Just say: "generate the corrected Fitness files" — and I'll write all of them 
 
 Sleep well — you're in great shape. 🚀
 </Strong>
+eksctl create cluster --name hospital-eks --region ap-northeast-2 --without-nodegroup
+
+eksctl create nodegroup --cluster hospital-eks --region ap-northeast-2 --name ng-workers --node-type t3.medium --nodes 2 --nodes-min 2 --nodes-max 3
