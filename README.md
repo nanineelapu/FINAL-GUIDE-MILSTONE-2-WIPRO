@@ -332,3 +332,12 @@ eksctl create cluster --name fitness-tracker-cluster --region ap-southeast-2 --v
 eksctl create nodegroup --cluster fitness-tracker-cluster --region ap-southeast-2 --name ng-1 --node-type t3.medium --nodes 2 --nodes-min 2 --nodes-max 3 --node-volume-size 20 --managed
 eksctl create cluster --name hospital-eks --region ap-southeast-2 --without-nodegroup
 eksctl create nodegroup --cluster hospital-eks --region ap-southeast-2 --name ng-workers --node-type t3.medium --nodes 2 --nodes-min 2 --nodes-max 3
+
+
+
+
+# 1️⃣ Create the cluster from the file, but skip the nodegroup
+eksctl create cluster -f eks/cluster.yaml --without-nodegroup
+
+# 2️⃣ Create the nodegroup from the same file
+eksctl create nodegroup -f eks/cluster.yaml
