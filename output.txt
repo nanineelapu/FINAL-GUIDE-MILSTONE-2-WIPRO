@@ -1,0 +1,56 @@
+Here's a phase-by-phase screenshot checklist. Take these as you go — they're your proof for each deliverable.
+
+Phase 1 — Jira
+ Epic created (the Epic detail page)
+ Board view showing User Stories + Subtasks under the Epic
+ Work items assigned to you (assignee = your name visible)
+ Board showing progress columns (To Do / In Progress / Done)
+Phase 2 — GitHub / Source Control
+ Repo file tree showing the structure (Dockerfile, manifests, Fitness_Chart/, eks/, docs)
+ Branch protection rule on main (Settings → Branches — showing "Require PR" + "Require approval")
+ List of branches (showing your feature/... branch)
+Phase 3 — Containerization (Docker build)
+ Terminal: docker build finishing successfully
+ docker images showing your image with both tags (nanineelapu/fitness-tracker:1.0.0 and :latest)
+Phase 4 — Docker Hub
+ Terminal: docker push success
+ Docker Hub website showing your repository with the pushed tags
+Phase 5 — EKS Cluster
+ eksctl create cluster ... --without-nodegroup completed
+ eksctl create nodegroup -f eks/cluster.yaml completed
+ AWS Console → EKS showing the devops-cluster (Active)
+ AWS Console → CloudFormation showing the eksctl stacks (CREATE_COMPLETE)
+ kubectl get nodes → 2 nodes Ready
+Phase 6 — Bastion (public/private)
+ AWS Console → VPC → Subnets showing public AND private subnets for the cluster VPC
+ EC2 Console showing the bastion instance running in a public subnet
+ kubectl get nodes -o wide → nodes show private IPs (proves nodes are private)
+ Terminal: SSH into bastion + kubectl get nodes working from the bastion
+Phase 7 — Kubernetes Deployment
+ kubectl get deployments (app shows 2/2)
+ kubectl get pods (all Running)
+ kubectl get svc showing the LoadBalancer with an external hostname
+ kubectl get configmap + kubectl get secret (shows ConfigMap & Secret exist)
+ Browser showing the app open at the LoadBalancer URL ✅ (the money shot)
+Phase 8 — Persistent Storage (most important to demo)
+ kubectl get pvc → Bound
+ kubectl get pv → the EBS volume
+ AWS Console → EC2 → Volumes showing the gp3 EBS volume
+ App with some data entered (before)
+ kubectl delete pod mongodb-0 then kubectl get pods (pod recreated)
+ Browser refreshed → data still there (after — proves persistence survives pod deletion)
+Phase 9 — Helm
+ helm lint ./Fitness_Chart → 0 failed
+ values.yaml open in editor (shows everything externalized, no hardcoded values)
+ helm install fitness ./Fitness_Chart success
+ helm list showing the deployed release
+ (Bonus) helm template output showing values rendered in
+Phase 10 — Release Workflow
+ Pull Request page on GitHub (Open)
+ PR showing approval + Merge button / merged state
+ helm upgrade fitness ./Fitness_Chart after merge
+ kubectl get pods showing the change rolled out (e.g. 3 replicas)
+Documentation
+ Your README.md / DEPLOYMENT.md rendered on GitHub
+ Architecture diagram (the public/private/bastion drawing)
+💡 Tip: For every terminal screenshot, make sure the command + its output are both visible, and ideally your cluster name / region show in the prompt. That way each screenshot self-proves what it is
